@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영등포역 맛집</title>
+    <style>
+        td, th {padding: 2px;}
+    </style>
+</head>
+<body style="margin: 40px;">
+    <h3>영등포역 맛집<button onclick="location.href='/interpark'">인터파크 베스트셀러</button></h3>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>업소명</th>
+            <th>이미지</th>
+            <th>평점</th>
+            <th>메뉴</th>
+            <th>주소</th>
+            <th>전화번호</th>
+        </tr>
+       {# '업소명':name, '평점':score, '메뉴':menu, '주소':addr, '전화번호':tel #}
+        {% for rest in rest_list %}
+        <tr>
+            <td><a href="{{rest.href}}" target="_blank">{{rest.업소명}}</a></td>
+            <td><img src="{{rest.이미지}}" height="32"></td>
+            <td>{{rest.평점}}</td>
+            <td>{{rest.메뉴}}</td>
+            <td>{{rest.주소}}</td>
+            <td>{{rest.전화번호}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
