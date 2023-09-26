@@ -48,9 +48,9 @@ def get_melon_chart():
     
     return data
 
-def get_restaurant_list(param):
+def get_restaurant_list(place):
     base_url = 'https://www.siksinhot.com/search'
-    url = f'{base_url}?keywords={quote(f"{param}")}'
+    url = f'{base_url}?keywords={quote(place)}'
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'html.parser')
     lis = soup.select('.localFood_list > li')
