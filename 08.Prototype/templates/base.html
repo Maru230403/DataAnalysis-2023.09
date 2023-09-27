@@ -59,7 +59,7 @@
             </ul>
             <span class="navbar-text me-3">
                 {% if session['uid'] %}
-                    {{ session['uid'] }}님 환영합니다.
+                    {{ session['uname'] }}님 환영합니다.
                 {% endif %}
             </span>
         </div>
@@ -84,15 +84,15 @@
                     <a href="javascript:changeQuote()"><span class="badge bg-secondary">수정</span></a>
                 </div>
                 <div class="mt-5">
-                    <i class="fa fa-envelope me-2"></i>ckiekim@naver.com<br>
-                    <img src="{{url_for('static', filename='data/github.png')}}" height="16" class="me-2"><a href="#">ckiekim</a><br>
-                    <img src="{{url_for('static', filename='data/facebook.png')}}" height="16" class="me-2"><a href="#">ckiekimFB</a><br>
+                    <i class="fa fa-envelope me-2"></i>choruru@naver.com<br>
+                    <img src="{{url_for('static', filename='data/github.png')}}" height="16" class="me-2"><a href="#">Maru230403</a><br>
+                    <img src="{{url_for('static', filename='data/facebook.png')}}" height="16" class="me-2"><a href="#">Ruru230714</a><br>
                     <a href="#" onclick="changeAddr(); return false;">
                         <img src="{{url_for('static', filename='data/addr.png')}}" height="16" class="me-2">
                     </a>
                         <span id="addr">{{ session['addr'] }}</span>
                         <a href="javascript:changeWeather()"><span class="badge bg-secondary">날씨</span></a>
-                    <div id="addrInput" class="mt-2 d-none">
+                    <div id="addrInput" class="mt-2 d-none">    <!-- d-none: 디스플레이가 안보이게하는것 -->
                         <input type="text" id="addrInputTag" class="form-control form-control-sm"
                             onkeyup="if(window.event.keyCode==13) {addrSubmit()}">
                         <a href="javascript:addrSubmit()">
