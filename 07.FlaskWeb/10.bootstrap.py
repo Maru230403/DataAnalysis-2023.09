@@ -23,7 +23,7 @@ def modal():
 @app.route('/interpark')
 def interpark():
     book_list = cu.get_bestseller()
-    return render_template('10.interpark.html', book_list=book_list)
+    return render_template('interpark.html', book_list=book_list)
 
 @app.route('/cctv')
 def cctv():
