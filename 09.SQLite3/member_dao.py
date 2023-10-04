@@ -5,7 +5,7 @@ import sqlite3 as sq
 
 # member table에 있는 데이터 모두 가져오는 함수
 def get_members():
-    conn = sq.connect('./test.db')
+    conn = sq.connect('test.db')
     cur = conn.cursor()
 
     sql = 'select * from member'
@@ -17,12 +17,12 @@ def get_members():
     return rows
 
 # ?세 미만의 데이터 가져오는 함수
-def get_members_under_age(age):   
+def get_members_under_age(age):
     conn = sq.connect('test.db')
     cur = conn.cursor()
 
-    sql = 'select * from member where age < ?'
-    cur.execute(sql, (age, ))  
+    sql = 'select * from member where age<?'
+    cur.execute(sql, (age,))
     rows = cur.fetchall()
 
     cur.close()
@@ -34,9 +34,9 @@ def get_member_by_mid(mid):
     conn = sq.connect('test.db')
     cur = conn.cursor()
 
-    sql = 'select * from member where mid = ?'
-    cur.execute(sql, (mid, ))   
-    row = cur.fetchone()       
+    sql = 'select * from member where mid=?'
+    cur.execute(sql, (mid,))
+    row = cur.fetchone()
 
     cur.close()
     conn.close()
@@ -48,8 +48,8 @@ def insert_member(params):
     cur = conn.cursor()
 
     sql = 'insert into member(name, age) values (?, ?)'
-    cur.execute(sql, params)   
-    conn.commit()          
+    cur.execute(sql, params)
+    conn.commit()
 
     cur.close()
     conn.close()
@@ -60,7 +60,7 @@ def update_member(params):
     cur = conn.cursor()
 
     sql = 'update member set name=?, age=? where mid=?'
-    cur.execute(sql, params)   # 파라메터는 반드시 튜플로 전달해야 함 그러면 결과도 튜플로 나옴
+    cur.execute(sql, params)       # 파라메터는 반드시 튜플로 전달해야 함
     conn.commit()           # DB 내용이 변경되는 경우에는 반드시 commit()을 해주어야 함
 
     cur.close()
@@ -71,9 +71,9 @@ def delete_member(mid):
     conn = sq.connect('test.db')
     cur = conn.cursor()
 
-    sql = 'delete member from where mid=?'
-    cur.execute(sql, (mid, ))   
-    conn.commit()           
+    sql = 'delete from member where mid=?'
+    cur.execute(sql, (mid, ))
+    conn.commit()
 
     cur.close()
-    conn.close()
+    conn.close()    

@@ -5,5 +5,6 @@ create table member (
     name text not null,
     age int default 20
 );
+
 insert into member(name, age) values
     ('james', 25), ('maria', 23), ('tommy', 19), ('emma', 27);
