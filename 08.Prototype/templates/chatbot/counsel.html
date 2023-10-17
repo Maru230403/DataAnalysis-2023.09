@@ -9,7 +9,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/chatbot/counsel',
-                data: {userInput, userInput},
+                data: {userInput: userInput},
                 success: function(result) {
                     let obj = JSON.parse(result);
 					$('<div></div>')
