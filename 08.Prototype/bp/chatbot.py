@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, current_app, request, current_app
+from flask import Blueprint, render_template, request, current_app
 import json, os
+import bardapi, openai
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -17,9 +18,6 @@ def before_app_first_request():
     wdf.embedding = wdf.embedding.apply(json.loads)
     print('Wellness initialization is done.')
 
-
-
-
 @chatbot_bp.route('/counsel', methods=['GET','POST'])
 def counsel():
     if request.method == 'GET':
@@ -34,11 +32,40 @@ def counsel():
         }
         return json.dumps(result)
 
-
 @chatbot_bp.route('/bard', methods=['GET','POST'])
 def bard():
-    pass
+    if request.method == 'GET':
+        return render_template('chatbot/bard.html', menu=menu)
+    else:
+        with open(os.path.join(current_app.static_folder, 'keys/bardApiKey.txt')) as file:
+            os.environ['_BARD_API_KEY'] = file.read()
+        user_input = request.form['userInput']
+        response = bardapi.core.Bard().get_answer(user_input)
+        result = {'user':user_input, 'chatbot':response['content']}
+        return json.dumps(result)
 
 @chatbot_bp.route('/genImg', methods=['GET','POST'])
-def gen_Img():
-    pass
+def gen_img():
+    if request.method == 'GET':
+        return render_template('chatbot/genImg.html', menu=menu)
+    else:
+        with open(os.path.join(current_app.static_folder, 'keys/openAiApiKey.txt')) as file:
+            openai.api_key = file.read()
+        user_input = request.form['userInput'] 
+        size = request.form['size']
+
+        gpt_prompt = [
+            {'role': 'system', 
+             'content': 'Imagine the detail appearance of the input. Response it shortly around 20 English words.'},
+            {'role': 'user', 'content': user_input}      
+        ]
+        gpt_response = openai.ChatCompletion.create(
+            model='gpt-3.5-turbo', messages=gpt_prompt
+        )
+        prompt = gpt_response['choices'][0]['message']['content']
+        dalle_response = openai.Image.create(
+            prompt=prompt, size=size         # '1024x1024', '512x512', '256x256'
+        )
+        img_url = dalle_response['data'][0]['url']
+        result = {'img_url':img_url, 'translated_text': prompt}
+        return json.dumps(result) 
